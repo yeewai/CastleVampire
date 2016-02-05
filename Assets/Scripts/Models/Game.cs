@@ -11,10 +11,16 @@ public class Game {
   public string saveName;
   public DateTime saveDate;
   //public int inGameMin;
-  public Person[] villagers; 
+  public Person player;
+  public List<Person> villagers; 
 
   public Game () {
     saveName = "Ohai" + UnityEngine.Random.Range(1, 10);
+    player = new Person();
+    villagers = new List<Person>();
+    for (int i = 0; i < UnityEngine.Random.Range(2, 10); i++) {
+      villagers.Add(new Person());
+    }
     //inGameSec = 0;
   }
   

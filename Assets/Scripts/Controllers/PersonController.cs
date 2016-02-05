@@ -12,8 +12,12 @@ public class PersonController : MonoBehaviour {
   public Person person;
   
 	// Use this for initialization
-	void Start () {
-    person = new Person();
+	//void Start () {
+  // 
+	//}
+  
+  public void SetPerson(Person p) {
+    person = p;
     
     //Set skintone
     foreach(Transform bodypart in new Transform[] {head, body, frontArm, backArm, frontLeg, backLeg}) {
@@ -25,7 +29,8 @@ public class PersonController : MonoBehaviour {
     SetItem(person.clothes_backArm, backArm);
     SetItem(person.clothes_frontLeg, frontLeg);
     SetItem(person.clothes_backLeg, backLeg);
-	}
+    
+  }
   
   void SetItem(string itemName, Transform bodypart) {
     Sprite s = Resources.Load("Sprites/people/" + itemName, typeof(Sprite)) as Sprite;

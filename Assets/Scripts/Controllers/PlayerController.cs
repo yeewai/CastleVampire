@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour {
   int facing;
   
 	void Start () {
-    //animator = GetComponent<Animator>();
+    animator = transform.Find("PersonAnimator").gameObject.GetComponent<Animator>();
     rb = GetComponent<Rigidbody2D>();
     state = "idle";
     facing = 1;
