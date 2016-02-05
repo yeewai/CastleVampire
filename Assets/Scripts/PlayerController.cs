@@ -14,11 +14,6 @@ public class PlayerController : MonoBehaviour {
     rb = GetComponent<Rigidbody2D>();
     state = "idle";
     facing = 1;
-    
-    Transform body = transform.Find("PersonAnimator/characters_body");
-    body.gameObject.GetComponent<SpriteRenderer> ().sprite = Resources.Load("Sprites/people/characters-clothes1", typeof(Sprite)) as Sprite;
-    Transform head = transform.Find("PersonAnimator/characters_head");
-    head.gameObject.GetComponent<SpriteRenderer> ().sprite = Resources.Load("Sprites/people/characters-head1", typeof(Sprite)) as Sprite;
 	}
 	
   void FixedUpdate() {
