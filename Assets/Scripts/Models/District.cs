@@ -12,8 +12,8 @@ public class District {
   public District(int villagerStartSize) {
     buildingCapacity = UnityEngine.Random.Range(50, 100);
     name = names()[UnityEngine.Random.Range(0, names().Length)];
-    Debug.Log("District " + name);
     buildings = new List<Building>();
+    buildings.Add(new Building("road"));
     while(buildings.Count < buildingCapacity && villagers().Count < villagerStartSize) {
       buildings.Add(new Building());
     }

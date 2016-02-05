@@ -16,7 +16,14 @@ public class Building {
       residents.Add(new Person());
     }
     name = residents[0].lastName + "'s " + buildingType;
-    Debug.Log("Building: " + name + " has " + residents.Count + " residents.");
+  }
+  
+  public Building(string s) {
+    if (s == "road") {
+      buildingType = "road";
+      name = "Road";
+      residents = new List<Person>();
+    }
   }
   
   static String[] buildingTypes() {

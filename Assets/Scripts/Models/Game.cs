@@ -27,7 +27,6 @@ public class Game {
       districts.Add(d);
       villagers.AddRange(d.villagers());
     }
-    Debug.Log("There are " + villagers.Count + " villagers in this village");
   }
   
   public static Game Current() {
