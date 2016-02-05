@@ -13,21 +13,26 @@ public class Game {
   //public int inGameMin;
   public Person player;
   public List<Person> villagers; 
+  public List<District> districts;
 
   public Game () {
     saveName = "Ohai" + UnityEngine.Random.Range(1, 10);
     player = new Person();
     villagers = new List<Person>();
-    for (int i = 0; i < UnityEngine.Random.Range(2, 10); i++) {
-      villagers.Add(new Person());
-    }
     //inGameSec = 0;
+    districts = new List<District>();
+    int villagerStartSize = UnityEngine.Random.Range(100, 120);
+    while (villagers.Count < villagerStartSize) {
+      District d = new District(villagerStartSize - villagers.Count);
+      districts.Add(d);
+      villagers.AddRange(d.villagers());
+    }
+    Debug.Log("There are " + villagers.Count + " villagers in this village");
   }
   
   public static Game Current() {
     if (current == null) {
-      Game g = new Game();
-      Game.current = g;
+      Game.current = new Game();
     }
     return Game.current;
   }  

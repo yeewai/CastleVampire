@@ -5,7 +5,8 @@ using System.Collections.Generic;
 
 [System.Serializable]
 public class Person {
-  public string name;
+  public string firstName;
+  public string lastName;
   public string hair;
   public Color hairColor;
   public string clothes_body;
