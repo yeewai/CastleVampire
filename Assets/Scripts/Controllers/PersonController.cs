@@ -21,9 +21,10 @@ public class PersonController : MonoBehaviour {
     
     //Set skintone
     foreach(Transform bodypart in new Transform[] {head, body, frontArm, backArm, frontLeg, backLeg}) {
-      bodypart.gameObject.GetComponent<SpriteRenderer>().color = ColorHex.HexToColor(person.skintone);
+      bodypart.gameObject.GetComponent<SpriteRenderer>().color = person.skintone;
     }
-    SetItem(person.hair, head);
+    SpriteRenderer hair = SetItem(person.hair, head);
+    hair.color = person.hairColor;
     SetItem(person.clothes_body, body);
     SetItem(person.clothes_frontArm, frontArm);
     SetItem(person.clothes_backArm, backArm);
@@ -32,7 +33,7 @@ public class PersonController : MonoBehaviour {
     
   }
   
-  void SetItem(string itemName, Transform bodypart) {
+  SpriteRenderer SetItem(string itemName, Transform bodypart) {
     Sprite s = Resources.Load("Sprites/people/" + itemName, typeof(Sprite)) as Sprite;
     if (s != null){
       GameObject item = new GameObject(); 
@@ -42,7 +43,8 @@ public class PersonController : MonoBehaviour {
       SpriteRenderer sr = item.AddComponent<SpriteRenderer>();
       sr.sprite = s;
       sr.sortingOrder = bodypart.gameObject.GetComponent<SpriteRenderer>().sortingOrder + 1;
+      return sr;
     }
-    
+  return null; 
   }
 }

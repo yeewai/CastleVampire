@@ -7,27 +7,30 @@ using System.Collections.Generic;
 public class Person {
   public string name;
   public string hair;
+  public Color hairColor;
   public string clothes_body;
   public string clothes_frontArm;
   public string clothes_backArm;
   public string clothes_frontLeg;
   public string clothes_backLeg;
-  public string skintone;
+  public Color skintone;
   
   public Person() {
-    skintone = skintones()[UnityEngine.Random.Range(0, skintones().Length)];
+    skintone = ColorHex.HexToColor(skintones()[UnityEngine.Random.Range(0, skintones().Length)]);
+    hairColor = ColorHex.generateRandomColor(ColorHex.HexToColor("c6ab7b"));
+    //hairColor = ColorHex.HexToColor(randomColors()[UnityEngine.Random.Range(0, randomColors().Length)]);
     //Color skintone = Random.ColorHSV(47.0f/360f, 20f/360f, .07f, .55f, .03f, .75f);
     clothes_body = Person.CharacterOptions()["body"][UnityEngine.Random.Range(0, Person.CharacterOptions()["body"].Count)];
-    clothes_frontArm = "";
-    clothes_backArm = "";
-    clothes_frontLeg = "";
-    clothes_backLeg = "";
+    string clothes = clothes_body.Substring("body".Length);
+    clothes_frontArm = "arm" + clothes;
+    clothes_backArm = "arm" + clothes;
+    clothes_frontLeg = "leg" + clothes;
+    clothes_backLeg = "leg" + clothes;
     hair = Person.CharacterOptions()["head"][UnityEngine.Random.Range(0, Person.CharacterOptions()["head"].Count)];
   }
   
   static String[] skintones() {
-    return new String[] {"e7caba", "462d21"};
-    
+    return new String[] {"e7caba", "462d21", "76503d", "FFDFC4","F0D5BE","EECEB3","E1B899","E5C298","FFDCB2","E5B887","E5A073","E79E6D","DB9065","CE967C","C67856","BA6C49","A57257","F0C8C9","DDA8A0","B97C6D","A8756C","AD6452","5C3836","CB8442","BD723C","704139","A3866A"};    
   }
   
   static Dictionary<string, List<string>> characterOptions;
