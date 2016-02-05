@@ -1,0 +1,15 @@
+#/Temp/*
+#Temp/*
+#/Library/*
+#Library/*
+
+# From web
+.DS_Store
+Library
+Library/*
+*.csproj
+*.sln
+*.userprefs
+Temp
+*.pidb
+Build
