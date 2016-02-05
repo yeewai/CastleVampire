@@ -12,6 +12,7 @@ public class VillageController : Singleton<VillageController> {
     foreach(Person villager in Game.Current().villagers){
       GameObject v = Instantiate(Resources.Load("Person"), new Vector3(0,0,0), Quaternion.identity) as GameObject;
       v.GetComponent<PersonController>().SetPerson(villager);
+      v.AddComponent<NPCController>();
     }
 	}
 	

@@ -23,11 +23,11 @@ public class ColorHex{
       float blue;
 
       // mix the color
-      if (mix != null) {
+      //if (mix != null) {
           red = ((UnityEngine.Random.Range(0, 256)/256f) + mix.r) / 2f;
           green = ((UnityEngine.Random.Range(0, 256)/256f) + mix.g) / 2f;
           blue = ((UnityEngine.Random.Range(0, 256)/256f) + mix.b) / 2f;
-      }
+      //}
       return new Color(red, green, blue);;
   }
   
