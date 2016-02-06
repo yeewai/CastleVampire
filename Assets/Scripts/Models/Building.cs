@@ -7,9 +7,11 @@ using UnityEngine;
 public class Building {
   public string name;
   public string buildingType; 
+  public Color color;
   public List<Person> residents; 
   
   public Building() {
+    color = ColorHex.generateRandomColor(ColorHex.HexToColor("c6ab7b"));
     buildingType = Database.getRandomFrom(buildingTypes);
     residents = new List<Person>();
     for(int i = 0; i < UnityEngine.Random.Range(1,8); i ++) {
