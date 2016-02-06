@@ -18,7 +18,7 @@ public class PersonController : MonoBehaviour {
   
   public void SetPerson(Person p) {
     person = p;
-    
+  
     //Set skintone
     foreach(Transform bodypart in new Transform[] {head, body, frontArm, backArm, frontLeg, backLeg}) {
       bodypart.gameObject.GetComponent<SpriteRenderer>().color = person.skintone;
@@ -31,6 +31,8 @@ public class PersonController : MonoBehaviour {
     SetItem(person.clothes_frontLeg, frontLeg);
     SetItem(person.clothes_backLeg, backLeg);
     
+    body.gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/people/Base/" + person.GetBody());
+    head.gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprites/people/Base/" + person.GetHead(), typeof(Sprite)) as Sprite;
   }
   
   SpriteRenderer SetItem(string itemName, Transform bodypart) {
