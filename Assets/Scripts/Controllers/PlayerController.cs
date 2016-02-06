@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
   //public float moveForce = 365f;
-  public float speed = 5f;
+  public float speed = 10f;
   //public float jumpForce = 400.0f;
   public Animator animator;
   Rigidbody2D rb;

@@ -32,6 +32,7 @@ public class DistrictController : Singleton<DistrictController> {
     GameObject p = Instantiate(Resources.Load("Person"), new Vector3(10,2,0), Quaternion.identity) as GameObject;
     p.AddComponent<PlayerController>();
     p.GetComponent<PersonController>().SetPerson(Game.Current().player);
+    Camera.main.GetComponent<CameraController>().target = p.transform;
 	}
 	
 	// Update is called once per frame
