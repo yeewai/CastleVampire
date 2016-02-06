@@ -32,6 +32,10 @@ public class Person {
     gender = "male";
     if(UnityEngine.Random.Range(-1f,1f) > 0) {gender = "female";}
     
+    lastName = Database.getRandomFromKey("LastNames");
+    if (gender == "male") {firstName = Database.getRandomFromKey("FirstNamesMale");}
+    else {firstName = Database.getRandomFromKey("FirstNamesFemale");}
+    
     skintone = ColorHex.HexToColor(Database.getRandomFromKey("Skintones"));
     hairColor = ColorHex.generateRandomColor(ColorHex.HexToColor("c6ab7b"));
     //clothes_body = Database.getRandomFrom(Database.CharacterOptions()["body"]);

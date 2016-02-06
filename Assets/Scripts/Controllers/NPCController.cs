@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class NPCController : MonoBehaviour {
@@ -7,6 +8,7 @@ public class NPCController : MonoBehaviour {
   Rigidbody2D rb;
   int facing;
   bool runOnce;
+  Text speechText;
     
 	// Use this for initialization
 	void Start () {
@@ -26,9 +28,9 @@ public class NPCController : MonoBehaviour {
   IEnumerator Move() {
     while(true) {
       facing *=-1;
-      Vector3 theScale = transform.localScale;
+      Vector3 theScale = transform.Find("PersonAnimator").localScale;
       theScale.x = Mathf.Abs(theScale.x) * facing;
-      transform.localScale = theScale;
+      transform.Find("PersonAnimator").localScale = theScale;
       yield return StartCoroutine(moving(Random.Range(0f,10f)));
     }
   }

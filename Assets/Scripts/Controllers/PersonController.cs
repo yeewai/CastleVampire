@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class PersonController : MonoBehaviour {
@@ -8,6 +9,7 @@ public class PersonController : MonoBehaviour {
   public Transform backArm;
   public Transform frontLeg;
   public Transform backLeg;
+  public Text speechText;
   
   public Person person;
   
@@ -33,6 +35,7 @@ public class PersonController : MonoBehaviour {
     
     body.gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/people/Base/" + person.GetBody());
     head.gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprites/people/Base/" + person.GetHead(), typeof(Sprite)) as Sprite;
+    speechText.text = person.firstName + " " + person.lastName;
   }
   
   SpriteRenderer SetItem(string itemName, Transform bodypart) {
