@@ -5,6 +5,7 @@ public class DistrictController : Singleton<DistrictController> {
   protected DistrictController () {} 
   //public Transform ground;
   District district;
+  public GameObject player; 
 
 	// Use this for initialization
 	void Start () {
@@ -27,12 +28,10 @@ public class DistrictController : Singleton<DistrictController> {
       }
     }
     
-    //Load People
-    
-    GameObject p = Instantiate(Resources.Load("Person"), new Vector3(10,2,0), Quaternion.identity) as GameObject;
-    p.AddComponent<PlayerController>();
-    p.GetComponent<PersonController>().SetPerson(Game.Current().player);
-    Camera.main.GetComponent<CameraController>().target = p.transform;
+    player = Instantiate(Resources.Load("Person"), new Vector3(10,2,0), Quaternion.identity) as GameObject;
+    player.AddComponent<PlayerController>();
+    player.GetComponent<PersonController>().SetPerson(Game.Current().player);
+    Camera.main.GetComponent<CameraController>().target = player.transform;
 	}
 	
 	// Update is called once per frame

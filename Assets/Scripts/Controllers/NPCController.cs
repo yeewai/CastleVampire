@@ -8,7 +8,8 @@ public class NPCController : MonoBehaviour {
   Rigidbody2D rb;
   int facing;
   bool runOnce;
-  Text speechText;
+  SpeechBubble speech;
+  Person person;
     
 	// Use this for initialization
 	void Start () {
@@ -17,10 +18,17 @@ public class NPCController : MonoBehaviour {
     facing = 1;
     speed = Random.Range(1f,3.5f);
     runOnce = false;
+    person = GetComponent<PersonController>().person;
+    speech = transform.Find("SpeechBubbleCanvas/SpeechBubble").gameObject.GetComponent<SpeechBubble>(); //messy :/
 	}
 	
 	// Update is called once per frame
 	void Update () {
+    if (Mathf.Abs(transform.position.x - DistrictController.Instance.player.transform.position.x) < 5) {
+      speech.Say(person.firstName + " " + person.lastName);
+    } else {
+      speech.Clear();
+    }
     if (!runOnce)
       {StartCoroutine(Move()); runOnce = true;}
 	}

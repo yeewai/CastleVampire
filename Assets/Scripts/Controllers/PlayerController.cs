@@ -2,14 +2,11 @@
 using System.Collections;
 
 public class PlayerController : MonoBehaviour {
-  //public float moveForce = 365f;
   public float speed = 10f;
-  //public float jumpForce = 400.0f;
   public Animator animator;
   Rigidbody2D rb;
   string state;
   int facing;
-  //bool onGround;
   
 	void Start () {
     animator = transform.Find("PersonAnimator").gameObject.GetComponent<Animator>();
