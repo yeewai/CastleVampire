@@ -29,7 +29,7 @@ public class NPCController : MonoBehaviour {
       Vector3 theScale = transform.localScale;
       theScale.x = Mathf.Abs(theScale.x) * facing;
       transform.localScale = theScale;
-      yield return StartCoroutine(moving(Random.Range(0f,5f)));
+      yield return StartCoroutine(moving(Random.Range(0f,10f)));
     }
   }
   

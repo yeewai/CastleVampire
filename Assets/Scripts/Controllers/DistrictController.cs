@@ -3,15 +3,15 @@ using System.Collections;
 
 public class DistrictController : Singleton<DistrictController> {
   protected DistrictController () {} 
-  public Transform ground;
+  //public Transform ground;
   District district;
 
 	// Use this for initialization
 	void Start () {
     district = Game.Current().districts[0];
-    Vector3 theScale = ground.localScale;
-    theScale.x = district.buildings.Count;
-    ground.localScale = theScale;
+    Vector3 theScale = transform.localScale;
+    theScale.x = district.buildings.Count * 5;
+    transform.localScale = theScale;
     
     //Load Buildings
     
