@@ -15,6 +15,7 @@ public class Game {
   public List<Person> villagers; 
   public List<District> districts;
   public District currentDistrict;
+  public int largestDistrictSize;
 
   public Game () {
     saveName = "Ohai" + UnityEngine.Random.Range(1, 10);
@@ -22,10 +23,12 @@ public class Game {
     villagers = new List<Person>();
     //inGameSec = 0;
     districts = new List<District>();
+    largestDistrictSize = 0;
     int villagerStartSize = UnityEngine.Random.Range(100, 120);
     for (int i = 0; (villagers.Count < villagerStartSize); i++) {
       District d = new District(i, villagerStartSize - villagers.Count);
       districts.Add(d);
+      largestDistrictSize = Mathf.Max(largestDistrictSize, d.buildings.Count);
       villagers.AddRange(d.villagers());
     }
     Debug.Log("There are " + districts.Count + " districts");

@@ -5,12 +5,17 @@ public class DistrictController : Singleton<DistrictController> {
   protected DistrictController () {} 
   //public Transform ground;
   District district;
+  District nextDistrict;
   public GameObject player; 
   
   public float buildingWidth = 5;
 
 	// Use this for initialization
 	void Start () {
+    Vector3 theScale = transform.localScale;
+    theScale.x = Game.Current().largestDistrictSize * 5;
+    transform.localScale = theScale;
+    
     DrawCurrentDistrict();
     player = Instantiate(Resources.Load("Person"), new Vector3(10,2,0), Quaternion.identity) as GameObject;
     player.AddComponent<PlayerController>();
@@ -20,9 +25,11 @@ public class DistrictController : Singleton<DistrictController> {
   
   public void DrawCurrentDistrict() {
     district = Game.Current().currentDistrict;
-    Vector3 theScale = transform.localScale;
-    theScale.x = district.buildings.Count * 5;
-    transform.localScale = theScale;
+    if (district.index + 1 < Game.Current().districts.Count ) {
+      nextDistrict = Game.Current().districts[district.index + 1];
+    } else {
+      nextDistrict = null;
+    }
     
     //Load Buildings
     for (int i = 0; i < district.buildings.Count; i ++) {
@@ -37,10 +44,9 @@ public class DistrictController : Singleton<DistrictController> {
     }
     
     //load below district's buildings
-    if (district.index + 1 < Game.Current().districts.Count ) {
-      District nextD = Game.Current().districts[district.index + 1];
-      for (int i = 0; i < nextD.buildings.Count; i ++) {
-        SpriteRenderer sr = DrawBuilding(nextD.buildings[i], new Vector3(i * buildingWidth,-3f,0));
+    if (nextDistrict != null) {
+      for (int i = 0; i < nextDistrict.buildings.Count; i ++) {
+        SpriteRenderer sr = DrawBuilding(nextDistrict.buildings[i], new Vector3(i * buildingWidth,-3f,0));
         sr.color *= new Color(0.25f, 0.25f, 0.25f, 0.5f);
         sr.sortingOrder = 1000;
       }
@@ -55,6 +61,12 @@ public class DistrictController : Singleton<DistrictController> {
       if (obj != player) {Destroy(obj);}
     }
   }
+  
+  public void ChangeDistrict(int direction=1) {
+    ClearDistrict();
+    Game.Current().SetNextDistrict(direction);
+    DrawCurrentDistrict();
+  }
 	
   SpriteRenderer DrawBuilding(Building building, Vector3 pos) {
     GameObject b = Instantiate(Resources.Load("building"), pos, Quaternion.identity) as GameObject;
@@ -65,8 +77,15 @@ public class DistrictController : Singleton<DistrictController> {
   }
   
   public Building BuildingAt(float xPos) {
+    return BuildingAt(xPos, district);
+  }
+  public Building BuildingAtLowerDistrict(float xPos) {
+    return BuildingAt(xPos, nextDistrict);
+  }
+  public Building BuildingAt(float xPos, District d) {
     int i = (int)(xPos/buildingWidth); 
-    if (i >= 0 && i < district.buildings.Count) {return district.buildings[i];}
+    if (i > d.buildings.Count) {return new Building(i, "road");}
+    if (d != null && i >= 0) {return d.buildings[i];}
     return null;
   }
   

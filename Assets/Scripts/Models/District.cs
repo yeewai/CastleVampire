@@ -15,9 +15,10 @@ public class District {
     buildingCapacity = UnityEngine.Random.Range(15, 20);
     name = Database.getRandomFromKey("DistrictNames");
     buildings = new List<Building>();
-    buildings.Add(new Building(0, "road"));
+    if (index > 0) {buildings.Add(new Building(0, "road"));}
     for (int i = 1; (buildings.Count < buildingCapacity && villagers().Count < villagerStartSize); i++) {
-      buildings.Add(new Building(i));
+      if (index > 0 && UnityEngine.Random.Range(0, 100) > 90) {buildings.Add(new Building(i, "road"));}
+      else {buildings.Add(new Building(i));}
     }
   }
   

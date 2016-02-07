@@ -37,12 +37,15 @@ public class PlayerController : MonoBehaviour {
     }
     
     //Change districts (if possible)
-    if(Input.GetKeyUp("w") || Input.GetKeyUp("up") || Input.GetKeyUp("s") || Input.GetKeyUp("down")) {
+    if(Input.GetKeyUp("w") || Input.GetKeyUp("up")) {
       if (DistrictController.Instance.BuildingAt(transform.position.x).buildingType == "road") {
-        DistrictController.Instance.ClearDistrict();
-        if (Input.GetKeyUp("w") || Input.GetKeyUp("up")) {Game.Current().SetNextDistrict(-1);}
-        else {Game.Current().SetNextDistrict();}
-        DistrictController.Instance.DrawCurrentDistrict();
+        DistrictController.Instance.ChangeDistrict(-1);
+      }
+    }
+    if (Input.GetKeyUp("s") || Input.GetKeyUp("down")) {
+      Building b = DistrictController.Instance.BuildingAtLowerDistrict(transform.position.x);
+      if (b!= null && b.buildingType == "road") {
+        DistrictController.Instance.ChangeDistrict(1);
       }
     }
   }
