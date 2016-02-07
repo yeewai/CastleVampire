@@ -14,6 +14,7 @@ public class Game {
   public Person player;
   public List<Person> villagers; 
   public List<District> districts;
+  public District currentDistrict;
 
   public Game () {
     saveName = "Ohai" + UnityEngine.Random.Range(1, 10);
@@ -22,11 +23,13 @@ public class Game {
     //inGameSec = 0;
     districts = new List<District>();
     int villagerStartSize = UnityEngine.Random.Range(100, 120);
-    while (villagers.Count < villagerStartSize) {
-      District d = new District(villagerStartSize - villagers.Count);
+    for (int i = 0; (villagers.Count < villagerStartSize); i++) {
+      District d = new District(i, villagerStartSize - villagers.Count);
       districts.Add(d);
       villagers.AddRange(d.villagers());
     }
+    Debug.Log("There are " + districts.Count + " districts");
+    currentDistrict = districts[0];
   }
   
   public static Game Current() {
@@ -35,6 +38,13 @@ public class Game {
     }
     return Game.current;
   }  
+  
+  public void SetNextDistrict(int direction=1) {
+    int newIndex = currentDistrict.index + direction;
+    if (newIndex < districts.Count && newIndex >= 0) {
+      currentDistrict = districts[newIndex];
+    }
+  }
   
   //public int GetCurrentHour() {
   //  return (inGameMin / 60) % 24;

@@ -9,8 +9,10 @@ public class Building {
   public string buildingType; 
   public Color color;
   public List<Person> residents; 
+  public int address;
   
-  public Building() {
+  public Building(int addr) {
+    address = addr;
     color = ColorHex.generateRandomColor(ColorHex.HexToColor("c6ab7b"));
     buildingType = Database.getRandomFrom(buildingTypes);
     residents = new List<Person>();
@@ -20,7 +22,8 @@ public class Building {
     name = residents[0].lastName + "'s " + buildingType;
   }
   
-  public Building(string s) {
+  public Building(int addr, string s) {
+    address = addr;
     if (s == "road") {
       buildingType = "road";
       name = "Road";

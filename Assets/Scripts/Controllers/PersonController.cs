@@ -12,11 +12,6 @@ public class PersonController : MonoBehaviour {
   
   public Person person;
   
-	// Use this for initialization
-	//void Start () {
-  // 
-	//}
-  
   public void SetPerson(Person p) {
     person = p;
   

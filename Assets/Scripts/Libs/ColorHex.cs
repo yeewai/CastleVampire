@@ -28,7 +28,6 @@ public class ColorHex{
           green = ((UnityEngine.Random.Range(0, 256)/256f) + mix.g) / 2f;
           blue = ((UnityEngine.Random.Range(0, 256)/256f) + mix.b) / 2f;
       //}
-      return new Color(red, green, blue);;
+      return new Color(red, green, blue);
   }
-  
 }

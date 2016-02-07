@@ -8,14 +8,16 @@ public class District {
   public string name;
   public List<Building> buildings;
   public int buildingCapacity; 
+  public int index;
   
-  public District(int villagerStartSize) {
-    buildingCapacity = UnityEngine.Random.Range(50, 100);
+  public District(int addr, int villagerStartSize) {
+    index= addr;
+    buildingCapacity = UnityEngine.Random.Range(15, 20);
     name = Database.getRandomFromKey("DistrictNames");
     buildings = new List<Building>();
-    buildings.Add(new Building("road"));
-    while(buildings.Count < buildingCapacity && villagers().Count < villagerStartSize) {
-      buildings.Add(new Building());
+    buildings.Add(new Building(0, "road"));
+    for (int i = 1; (buildings.Count < buildingCapacity && villagers().Count < villagerStartSize); i++) {
+      buildings.Add(new Building(i));
     }
   }
   

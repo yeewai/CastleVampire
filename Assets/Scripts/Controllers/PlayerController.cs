@@ -35,5 +35,15 @@ public class PlayerController : MonoBehaviour {
       animator.SetTrigger("idle");
       rb.velocity = new Vector2 (0, rb.velocity.y);
     }
+    
+    //Change districts (if possible)
+    if(Input.GetKeyUp("w") || Input.GetKeyUp("up") || Input.GetKeyUp("s") || Input.GetKeyUp("down")) {
+      if (DistrictController.Instance.BuildingAt(transform.position.x).buildingType == "road") {
+        DistrictController.Instance.ClearDistrict();
+        if (Input.GetKeyUp("w") || Input.GetKeyUp("up")) {Game.Current().SetNextDistrict(-1);}
+        else {Game.Current().SetNextDistrict();}
+        DistrictController.Instance.DrawCurrentDistrict();
+      }
+    }
   }
 }
