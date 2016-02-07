@@ -4,9 +4,12 @@ using System.Collections;
 
 public class SpeechBubble : MonoBehaviour {
   public Text speechText;
+  public Text Name;
+  public PersonController pc;
   
   void Start () {
     if (speechText.text == "") {gameObject.SetActive(false);}
+    Name.text = "<b>" + pc.person.firstName.ToUpper() + " " + pc.person.lastName.ToUpper() + "</b>";
   }
 
   public void Say(string text) {

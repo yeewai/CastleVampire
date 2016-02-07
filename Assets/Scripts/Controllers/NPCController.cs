@@ -16,7 +16,7 @@ public class NPCController : MonoBehaviour {
     animator = transform.Find("PersonAnimator").gameObject.GetComponent<Animator>();
     rb = GetComponent<Rigidbody2D>();
     facing = 1;
-    speed = Random.Range(1f,3.5f);
+    speed = Random.Range(0.5f,2.5f);
     runOnce = false;
     person = GetComponent<PersonController>().person;
     speech = transform.Find("SpeechBubbleCanvas/SpeechBubble").gameObject.GetComponent<SpeechBubble>(); //messy :/
