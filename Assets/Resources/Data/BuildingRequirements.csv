@@ -1,0 +1,15 @@
+witch hut,fountain,church,library
+bulletin board,den,church,abbey
+garden,fountain,camp,abbey
+university,library,den,camp
+den,shop,bar
+fountain,shrine,maypole
+church,shrine,shop
+library,shop,maypole
+abbey,shrine,bar
+camp,maypole,shrine
+shrine,house
+shop,house
+maypole,house
+bar,house
+house

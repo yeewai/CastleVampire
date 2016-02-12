@@ -10,13 +10,30 @@ public class Building {
   public Color color;
   public List<Person> residents; 
   public int address;
+  public Building requirementFor;
   
-  public Building(int addr) {
+  public Building(int addr, Game currentGame) {
     address = addr;
     color = ColorHex.generateRandomColor(ColorHex.HexToColor("c6ab7b"));
-    buildingType = Database.getRandomFrom(buildingTypes);
+    
+    //Set building type
+    List<string> bTypes = new List<string>(Database.getBuildingRequirements().Keys); 
+    reshuffle(bTypes); 
+    
+    bool isBuilt = false;
+    for(int i = 0; isBuilt == false; i++) {
+      List<string> reqs = Database.getBuildingRequirements()[bTypes[i]];
+      List<Building> reqBs = new List<Building>();
+      if (reqs.Count > 0){ reqBs = currentGame.FindRequirementBuildings(reqs);}
+      if (reqBs.Count == reqs.Count) {
+        buildingType = bTypes[i];
+        foreach(Building b in reqBs) {b.requirementFor = this;}
+        isBuilt = true;
+      }
+    }
+    
     residents = new List<Person>();
-    for(int i = 0; i < UnityEngine.Random.Range(1,8); i ++) {
+    for(int j = 0; j < UnityEngine.Random.Range(1,8); j ++) {
       residents.Add(new Person());
     }
     name = residents[0].lastName + "'s " + buildingType;
@@ -31,5 +48,16 @@ public class Building {
     }
   }
   
-  static readonly String[] buildingTypes = new String[] {"House", "Inn", "Altar", "Maypole", "Shop"};
+  void reshuffle(List<string> texts) {
+    // Knuth shuffle algorithm :: courtesy of Wikipedia :)
+    for (int t = 0; t < texts.Count; t++ ) {
+      string tmp = texts[t];
+      int r = UnityEngine.Random.Range(t, texts.Count);
+      texts[t] = texts[r];
+      texts[r] = tmp;
+    }
+  }
+  
+  static readonly String[] buildingTypes = new String[] {"house", "shrine", "shop", "maypole", "bar", "den", "fountain", "church", "library", "abbot", "camp", "witch hut", "bulletin board", "garden", "university"}; 
+  //town hall
 }

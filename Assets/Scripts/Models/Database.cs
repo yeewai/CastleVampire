@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public static class Database {
   public static T getRandomFrom<T>(List<T> l) {
@@ -21,7 +22,7 @@ public static class Database {
       data = new Dictionary<string, string[]>();
       string path = Application.dataPath + "/Resources/Data/";
       foreach (string file in System.IO.Directory.GetFiles(path)) {
-        if (file.Substring(file.Length - 4) != "meta") {
+        if (file.Substring(file.Length - 4) == ".txt") {
          string k = file.Substring(path.Length);
          k = k.Split('.')[0];
          data.Add(k, ((TextAsset)Resources.Load("Data/" + k)).text.Split('\n'));
@@ -30,6 +31,20 @@ public static class Database {
     }
     
     return data[key];
+  }
+  
+  static Dictionary<string, List<string>> buildingRequirements;
+  public static Dictionary<string, List<string>> getBuildingRequirements() {
+    if (buildingRequirements == null) {
+      buildingRequirements = new Dictionary<string, List<string>>();
+      string[] lines = ((TextAsset)Resources.Load("Data/BuildingRequirements")).text.Split(new string[] {"\n"}, StringSplitOptions.RemoveEmptyEntries);
+      foreach (string line in lines) {
+        string[] reqs = line.Split(new string[] {","}, StringSplitOptions.RemoveEmptyEntries);
+        buildingRequirements.Add(reqs[0], reqs.Skip(1).ToList());
+      }
+    }
+    
+    return buildingRequirements;
   }
   
   static Dictionary<string, List<string>> characterOptions;
