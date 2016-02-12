@@ -18,7 +18,7 @@ public class Building {
     
     //Set building type
     List<string> bTypes = new List<string>(Database.getBuildingRequirements().Keys); 
-    reshuffle(bTypes); 
+    Database.reshuffle(bTypes); 
     
     bool isBuilt = false;
     for(int i = 0; isBuilt == false; i++) {
@@ -32,9 +32,10 @@ public class Building {
       }
     }
     
+    
     residents = new List<Person>();
     for(int j = 0; j < UnityEngine.Random.Range(1,8); j ++) {
-      residents.Add(new Person());
+      residents.Add(new Person(currentGame));
     }
     name = residents[0].lastName + "'s " + buildingType;
   }
@@ -48,16 +49,6 @@ public class Building {
     }
   }
   
-  void reshuffle(List<string> texts) {
-    // Knuth shuffle algorithm :: courtesy of Wikipedia :)
-    for (int t = 0; t < texts.Count; t++ ) {
-      string tmp = texts[t];
-      int r = UnityEngine.Random.Range(t, texts.Count);
-      texts[t] = texts[r];
-      texts[r] = tmp;
-    }
-  }
-  
-  static readonly String[] buildingTypes = new String[] {"house", "shrine", "shop", "maypole", "bar", "den", "fountain", "church", "library", "abbot", "camp", "witch hut", "bulletin board", "garden", "university"}; 
+  //static readonly String[] buildingTypes = new String[] {"house", "shrine", "shop", "maypole", "bar", "den", "fountain", "church", "library", "abbot", "camp", "witch hut", "bulletin board", "garden", "university"}; 
   //town hall
 }

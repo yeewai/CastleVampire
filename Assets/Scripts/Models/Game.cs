@@ -19,11 +19,11 @@ public class Game {
 
   public Game () {
     saveName = "Ohai" + UnityEngine.Random.Range(1, 10);
-    player = new Person();
     villagers = new List<Person>();
     //inGameSec = 0;
     districts = new List<District>();
     largestDistrictSize = 0;
+    player = new Person(this);
     
   }
   

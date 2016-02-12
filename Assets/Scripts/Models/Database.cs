@@ -5,6 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 
 public static class Database {
+  public static void reshuffle<T>(List<T> texts) {
+    // Knuth shuffle algorithm :: courtesy of Wikipedia :)
+    for (int t = 0; t < texts.Count; t++ ) {
+      T tmp = texts[t];
+      int r = UnityEngine.Random.Range(t, texts.Count);
+      texts[t] = texts[r];
+      texts[r] = tmp;
+    }
+  }
+  
   public static T getRandomFrom<T>(List<T> l) {
     return l[UnityEngine.Random.Range(0, l.Count)];
   }

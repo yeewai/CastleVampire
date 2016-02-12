@@ -25,12 +25,27 @@ public class Person {
   public string clothes_backLeg;  //obsolete soon
   
   
-  public Person(string vtype=null) {
-    villagerType = vtype;
-    if (villagerType == null) {villagerType = Database.getRandomFrom(villagerTypes);}
+  public Person(Game currentGame, string vtype=null) {
+    if (vtype != null) {
+      villagerType = vtype;
+    } else {
+      string key;
+      List<Building> buildings = currentGame.buildings();
+      Database.reshuffle(buildings);
+    
+      if (buildings.Count > 0) {
+        while (buildings[0].buildingType.Trim() == "road") {Database.reshuffle(buildings);}
+        key = buildings[0].buildingType;
+      }
+      else {
+        List<string> bTypes = new List<string>(Database.getBuildingRequirements().Keys); 
+        key = Database.getRandomFrom(bTypes);
+      }
+      villagerType = BuildingVillagerType.Get(key);
+    }
     
     gender = "male";
-    if(UnityEngine.Random.Range(-1f,1f) > 0) {gender = "female";}
+    if(UnityEngine.Random.Range(-1f,1f) < 0) {gender = "female";}
     
     lastName = Database.getRandomFromKey("LastNames");
     if (gender == "male") {firstName = Database.getRandomFromKey("FirstNamesMale");}
@@ -40,10 +55,6 @@ public class Person {
     hairColor = ColorHex.generateRandomColor(ColorHex.HexToColor("c6ab7b"));
     //clothes_body = Database.getRandomFrom(Database.CharacterOptions()["body"]);
     //clothes = clothes_body.Substring("body".Length);
-    //clothes_frontArm = "arm" + clothes; //soon to be obsolete
-    //clothes_backArm = "arm" + clothes;  //soon to be obsolete
-    //clothes_frontLeg = "leg" + clothes; //soon to be obsolete
-    //clothes_backLeg = "leg" + clothes;  //soon to be obsolete
     hair = Database.getRandomFrom(Database.CharacterOptions()["head"]);
   }
   
@@ -58,7 +69,7 @@ public class Person {
     		s += "circle";
     		break;
     	case "cleric":
-      case "barbarian":
+      case "crusader":
       case "naturalist":
     		s += "square";
     		break;
@@ -71,7 +82,7 @@ public class Person {
       case "adventurer":
         s += "diamond";
         break;
-      case "detective":
+      case "scholar":
       case "witch":
       case "thief":
         s += "triangle";
@@ -91,7 +102,7 @@ public class Person {
         break;
       case "healer":
       case "priest":
-      case "detective":
+      case "scholar":
       case "cleric":
         s += "square";
         break;
@@ -102,7 +113,7 @@ public class Person {
         break;
       case "warrior":
       case "adventurer":
-      case "barbarian":
+      case "crusader":
         s += "flippedtriangle";
         break;
       case "noble":
@@ -113,5 +124,31 @@ public class Person {
     return s + "_" + gender;
   }
   
-  static readonly String[] villagerTypes = new String[] {"peasant", "healer", "shopkeeper", "priest", "virgin", "damsel", "detective", "witch", "warrior", "cleric", "thief", "adventurer", "barbarian", "noble", "naturalist", "mayor"};
+  //static readonly String[] villagerTypes = new String[] {"peasant", "healer", "shopkeeper", "priest", "virgin", "damsel", "detective", "witch", "warrior", "cleric", "thief", "adventurer", "barbarian", "noble", "naturalist", "mayor"};
 } 
+
+static class BuildingVillagerType {
+  static Dictionary<string, string> _dict = new Dictionary<string, string> {
+    {"house", "peasant"},
+  	{"shrine", "healer"},
+  	{"shop", "shopkeeper"},
+  	{"maypole", "virgin"},
+  	{"bar", "warrior"},
+  	{"den", "thief"},
+  	{"fountain", "damsel"},
+  	{"church", "priest"},
+  	{"library", "scholar"},
+  	{"abbey", "cleric"},
+  	{"camp", "crusader"},
+  	{"witch hut", "witch"},
+  	{"bulletin board", "adventurer"},
+  	{"garden", "noble"},
+  	{"university", "naturalist"}
+  };
+
+  public static string Get(string word) {
+	  string result;
+	  if (_dict.TryGetValue(word, out result)) { return result; }
+	  else { return null; }
+  }
+}
