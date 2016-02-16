@@ -9,7 +9,7 @@ public class SpeechBubble : MonoBehaviour {
   
   void Start () {
     if (speechText.text == "") {gameObject.SetActive(false);}
-    Name.text = "<b>" + pc.person.firstName.ToUpper() + " " + pc.person.lastName.ToUpper() + "</b>";
+    Name.text = "<b>" + pc.person.villagerType.ToUpper() + ": " + pc.person.firstName.ToUpper() + " " + pc.person.lastName.ToUpper() + "</b>";
   }
 
   public void Say(string text) {

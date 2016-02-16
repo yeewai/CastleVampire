@@ -24,32 +24,24 @@ public class Game {
     districts = new List<District>();
     largestDistrictSize = 0;
     player = new Person(this);
-    
   }
   
-  void populateGame() {
-    int villagerStartSize = UnityEngine.Random.Range(100, 120);
+  void populateGame(int villagerStartSize) {
     for (int i = 0; (villagers.Count < villagerStartSize); i++) {
-      District d = new District(i, villagerStartSize - villagers.Count, this);
+      District d = new District(i);
       districts.Add(d);
-      
-      if (d.index > 0) {d.buildings.Add(new Building(0, "road"));}
-      for (int j = 1; (d.buildings.Count < d.buildingCapacity && d.villagers().Count < villagerStartSize - villagers.Count); j++) {
-        if (d.index > 0 && UnityEngine.Random.Range(0, 100) > 90) {d.buildings.Add(new Building(j, "road"));}
-        else {d.buildings.Add(new Building(j, this));}
-      }
-      
+      d.generateBuildings(this, villagerStartSize);
       largestDistrictSize = Mathf.Max(largestDistrictSize, d.buildings.Count);
-      villagers.AddRange(d.villagers());
     }
     Debug.Log("There are " + districts.Count + " districts");
+    Debug.Log("There are " + villagers.Count + " villagers");
     currentDistrict = districts[0];
   }
   
   public static Game Current() {
     if (current == null) {
       Game.current = new Game();
-      Game.current.populateGame();
+      Game.current.populateGame(UnityEngine.Random.Range(40, 60));
     }
     return Game.current;
   }  

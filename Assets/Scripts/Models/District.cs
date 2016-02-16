@@ -10,7 +10,7 @@ public class District {
   public int buildingCapacity; 
   public int index;
   
-  public District(int addr, int villagerStartSize, Game currentGame) {
+  public District(int addr) {
     index= addr;
     buildingCapacity = UnityEngine.Random.Range(15, 20);
     name = Database.getRandomFromKey("DistrictNames");
@@ -23,6 +23,16 @@ public class District {
       v.AddRange(b.residents);
     }
     return v;
+  }
+  
+  public void generateBuildings(Game currentGame, int villagerCapacity) {
+    if (index > 0) {buildings.Add(new Building(0, "road"));} //Hrm. omitting index clause makes an infinite loop...
+    for (int j = buildings.Count; 
+          buildings.Count < buildingCapacity && currentGame.villagers.Count < villagerCapacity; 
+          j++) {
+      if (index > 0 && UnityEngine.Random.Range(0, 100) > 90) {buildings.Add(new Building(j, "road"));}
+      else {buildings.Add(new Building(j, currentGame));}
+    }
   }
   
 }

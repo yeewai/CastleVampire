@@ -15,29 +15,11 @@ public class Building {
   public Building(int addr, Game currentGame) {
     address = addr;
     color = ColorHex.generateRandomColor(ColorHex.HexToColor("c6ab7b"));
+    setBuildingType(currentGame);
     
-    //Set building type
-    List<string> bTypes = new List<string>(Database.getBuildingRequirements().Keys); 
-    Database.reshuffle(bTypes); 
-    
-    bool isBuilt = false;
-    for(int i = 0; isBuilt == false; i++) {
-      List<string> reqs = Database.getBuildingRequirements()[bTypes[i]];
-      List<Building> reqBs = new List<Building>();
-      if (reqs.Count > 0){ reqBs = currentGame.FindRequirementBuildings(reqs);}
-      if (reqBs.Count == reqs.Count) {
-        buildingType = bTypes[i];
-        foreach(Building b in reqBs) {b.requirementFor = this;}
-        isBuilt = true;
-      }
-    }
-    
-    
-    residents = new List<Person>();
-    for(int j = 0; j < UnityEngine.Random.Range(1,8); j ++) {
-      residents.Add(new Person(currentGame));
-    }
-    name = residents[0].lastName + "'s " + buildingType;
+    string ownerName = generateResidents(currentGame);
+    if (residents.Count < 1) { ownerName = Database.getRandomFrom(currentGame.villagers).lastName; }
+    name =  ownerName + "'s " + buildingType;
   }
   
   public Building(int addr, string s) {
@@ -49,6 +31,30 @@ public class Building {
     }
   }
   
-  //static readonly String[] buildingTypes = new String[] {"house", "shrine", "shop", "maypole", "bar", "den", "fountain", "church", "library", "abbot", "camp", "witch hut", "bulletin board", "garden", "university"}; 
-  //town hall
+  void setBuildingType(Game currentGame){
+    List<string> bTypes = new List<string>(Database.getBuildingRequirements().Keys); //[TODO]town hall not in DB
+    Database.reshuffle(bTypes); 
+    
+    for(int i = 0; i < bTypes.Count; i++) {
+      List<string> reqs = Database.getBuildingRequirements()[bTypes[i]];
+      List<Building> reqBs = currentGame.FindRequirementBuildings(reqs);
+      if (reqBs.Count == reqs.Count) {
+        buildingType = bTypes[i];
+        foreach(Building b in reqBs) {b.requirementFor = this;}
+        return;
+      }
+    }
+  }
+  
+  string generateResidents(Game currentGame) {
+    residents = new List<Person>();
+    if(buildingType.Trim() == "house"){
+      for(int j = 0; j < UnityEngine.Random.Range(1,8); j ++) {
+        residents.Add(new Person(currentGame));
+      }
+      currentGame.villagers.AddRange(residents);
+      return residents[0].lastName;
+    }
+    return "";
+  }
 }
