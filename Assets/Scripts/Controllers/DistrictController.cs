@@ -51,6 +51,25 @@ public class DistrictController : Singleton<DistrictController> {
         sr.sortingOrder = 1000;
       }
     }
+    
+    //Draw road
+    for (int i = 0; i < district.buildings.Count; i ++) {
+      if (nextDistrict != null 
+            && i < nextDistrict.buildings.Count 
+            && nextDistrict.buildings[i].buildingType == "road") { 
+        if (district.buildings[i].buildingType == "road") {
+          DrawRoad("road-both",new Vector3(i * buildingWidth,0,0));
+        } else {
+          DrawRoad("road-down",new Vector3(i * buildingWidth,0f,0));
+        }
+      }
+      else if (district.buildings[i].buildingType == "road") {
+        DrawRoad("road-up",new Vector3(i * buildingWidth,0f,0));
+      } 
+      else {
+        DrawRoad("road",new Vector3(i * buildingWidth,0f,0));
+      }
+    }
   }
   
   public void ClearDistrict() {
@@ -76,6 +95,13 @@ public class DistrictController : Singleton<DistrictController> {
     return sr;
   }
   
+  void DrawRoad(string dir, Vector3 pos) {
+    GameObject b = Instantiate(Resources.Load("building"), pos, Quaternion.identity) as GameObject;
+    SpriteRenderer sr = b.GetComponent<SpriteRenderer>();
+    sr.sprite = Resources.Load<Sprite>("Sprites/road/" + dir);
+    //sr.color = building.color;
+  }
+  
   public Building BuildingAt(float xPos) {
     return BuildingAt(xPos, district);
   }
@@ -88,9 +114,4 @@ public class DistrictController : Singleton<DistrictController> {
     if (d != null && i >= 0) {return d.buildings[i];}
     return null;
   }
-  
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }
