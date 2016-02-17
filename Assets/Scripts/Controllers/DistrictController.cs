@@ -7,6 +7,8 @@ public class DistrictController : Singleton<DistrictController> {
   District district;
   District nextDistrict;
   public GameObject player; 
+  public Transform LeftBoundary;
+  public Transform RightBoundary;
   
   public float buildingWidth = 5;
 
@@ -31,6 +33,10 @@ public class DistrictController : Singleton<DistrictController> {
       nextDistrict = null;
     }
     
+    //Set Boundaries
+    LeftBoundary.position = new Vector3(-0.5f * buildingWidth, 0, 0);
+    RightBoundary.position = new Vector3((district.buildings.Count - 1 + 0.5f) * buildingWidth, 0, 0);
+    
     //Load Buildings
     for (int i = 0; i < district.buildings.Count; i ++) {
       Vector3 pos = new Vector3(i * buildingWidth,0.75f,0);
@@ -54,21 +60,7 @@ public class DistrictController : Singleton<DistrictController> {
     
     //Draw road
     for (int i = 0; i < district.buildings.Count; i ++) {
-      if (nextDistrict != null 
-            && i < nextDistrict.buildings.Count 
-            && nextDistrict.buildings[i].buildingType == "road") { 
-        if (district.buildings[i].buildingType == "road") {
-          DrawRoad("road-both",new Vector3(i * buildingWidth,0,0));
-        } else {
-          DrawRoad("road-down",new Vector3(i * buildingWidth,0f,0));
-        }
-      }
-      else if (district.buildings[i].buildingType == "road") {
-        DrawRoad("road-up",new Vector3(i * buildingWidth,0f,0));
-      } 
-      else {
-        DrawRoad("road",new Vector3(i * buildingWidth,0f,0));
-      }
+      DrawRoad(RoadAt(i),new Vector3(i * buildingWidth,0,0));
     }
   }
   
@@ -113,5 +105,23 @@ public class DistrictController : Singleton<DistrictController> {
     if (i > d.buildings.Count) {return new Building(i, "road");}
     if (d != null && i >= 0) {return d.buildings[i];}
     return null;
+  }
+  
+  public string RoadAt(float xPos) {
+    return RoadAt((int)(xPos/buildingWidth)); 
+  }
+  public string RoadAt(int i) {
+    if (i >= district.buildings.Count) {return "invalid";}
+    if (nextDistrict != null 
+          && i < nextDistrict.buildings.Count 
+          && nextDistrict.buildings[i].buildingType == "road") { 
+      if (district.buildings[i].buildingType == "road") {
+        return "road-both";
+      } else {
+        return "road-down";
+      }
+    }
+    else if (district.buildings[i].buildingType == "road") { return "road-up"; } 
+    else { return "road"; }
   }
 }

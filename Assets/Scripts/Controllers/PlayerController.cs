@@ -38,13 +38,14 @@ public class PlayerController : MonoBehaviour {
     
     //Change districts (if possible)
     if(Input.GetKeyUp("w") || Input.GetKeyUp("up")) {
-      if (DistrictController.Instance.BuildingAt(transform.position.x).buildingType == "road") {
+      string roadAt = DistrictController.Instance.RoadAt(transform.position.x);
+      if ( roadAt == "road-up" || roadAt == "road-both") {
         DistrictController.Instance.ChangeDistrict(-1);
       }
     }
     if (Input.GetKeyUp("s") || Input.GetKeyUp("down")) {
-      Building b = DistrictController.Instance.BuildingAtLowerDistrict(transform.position.x);
-      if (b!= null && b.buildingType == "road") {
+     string roadAt = DistrictController.Instance.RoadAt(transform.position.x);
+      if (roadAt == "road-down" || roadAt == "road-both") {
         DistrictController.Instance.ChangeDistrict(1);
       }
     }
