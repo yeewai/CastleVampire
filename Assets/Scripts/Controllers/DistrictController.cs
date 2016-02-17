@@ -40,7 +40,7 @@ public class DistrictController : Singleton<DistrictController> {
     //Load Buildings
     for (int i = 0; i < district.buildings.Count; i ++) {
       Vector3 pos = new Vector3(i * buildingWidth,0.75f,0);
-      DrawBuilding(district.buildings[i], pos);
+      DrawBuilding(district.buildings[i], pos, district.index);
       
       foreach(Person villager in district.buildings[i].residents){
         GameObject v = Instantiate(Resources.Load("Person"), pos, Quaternion.identity) as GameObject;
@@ -52,7 +52,7 @@ public class DistrictController : Singleton<DistrictController> {
     //load below district's buildings
     if (nextDistrict != null) {
       for (int i = 0; i < nextDistrict.buildings.Count; i ++) {
-        SpriteRenderer sr = DrawBuilding(nextDistrict.buildings[i], new Vector3(i * buildingWidth,-3f,-3));
+        SpriteRenderer sr = DrawBuilding(nextDistrict.buildings[i], new Vector3(i * buildingWidth,-3f,-3), nextDistrict.index);
         sr.color *= new Color(0.25f, 0.25f, 0.25f, 0.5f);
         sr.sortingOrder = 1000;
       }
@@ -79,11 +79,17 @@ public class DistrictController : Singleton<DistrictController> {
     DrawCurrentDistrict();
   }
 	
-  SpriteRenderer DrawBuilding(Building building, Vector3 pos) {
+  SpriteRenderer DrawBuilding(Building building, Vector3 pos, int dIndex) {
     GameObject b = Instantiate(Resources.Load("building"), pos, Quaternion.identity) as GameObject;
     SpriteRenderer sr = b.GetComponent<SpriteRenderer>();
-    sr.sprite = Resources.Load<Sprite>("Sprites/buildings/" + building.buildingType);
-    sr.color = building.color;
+    if (building.buildingType == "road" 
+      && (dIndex == 0 || dIndex > Game.Current().districts[dIndex -1].buildings.Count)) {
+      sr.sprite = Resources.Load<Sprite>("Sprites/buildings/wall");
+    } else {
+      sr.sprite = Resources.Load<Sprite>("Sprites/buildings/" + building.buildingType);
+      sr.color = building.color;
+    }
+    
     return sr;
   }
   
@@ -112,16 +118,24 @@ public class DistrictController : Singleton<DistrictController> {
   }
   public string RoadAt(int i) {
     if (i >= district.buildings.Count) {return "invalid";}
+    int dIndex = district.index;
     if (nextDistrict != null 
           && i < nextDistrict.buildings.Count 
           && nextDistrict.buildings[i].buildingType == "road") { 
-      if (district.buildings[i].buildingType == "road") {
+      if (canMoveUpAt(i, dIndex)) {
         return "road-both";
       } else {
         return "road-down";
       }
     }
-    else if (district.buildings[i].buildingType == "road") { return "road-up"; } 
+    else if (canMoveUpAt(i, dIndex)) { return "road-up"; } 
     else { return "road"; }
   }
+  
+  bool canMoveUpAt(int i, int dIndex) {
+    return district.buildings[i].buildingType == "road" 
+            && dIndex != 0 
+            && i < Game.Current().districts[dIndex -1].buildings.Count;
+  }
+  
 }

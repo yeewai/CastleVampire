@@ -30,9 +30,10 @@ public class District {
     for (int j = buildings.Count; 
           buildings.Count < buildingCapacity && currentGame.villagers.Count < villagerCapacity; 
           j++) {
-      if (index > 0 && UnityEngine.Random.Range(0, 100) > 90) {buildings.Add(new Building(j, "road"));}
+      if (UnityEngine.Random.Range(0, 100) > 90) {buildings.Add(new Building(j, "road"));}
       else {buildings.Add(new Building(j, currentGame));}
     }
+    buildings.Add(new Building(buildingCapacity, "road"));
   }
   
 }
