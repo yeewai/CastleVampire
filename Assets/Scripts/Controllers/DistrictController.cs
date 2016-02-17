@@ -52,7 +52,7 @@ public class DistrictController : Singleton<DistrictController> {
     //load below district's buildings
     if (nextDistrict != null) {
       for (int i = 0; i < nextDistrict.buildings.Count; i ++) {
-        SpriteRenderer sr = DrawBuilding(nextDistrict.buildings[i], new Vector3(i * buildingWidth,-3f,-3), nextDistrict.index);
+        SpriteRenderer sr = DrawBuilding(nextDistrict.buildings[i], new Vector3(i * buildingWidth,-2f,-3), nextDistrict.index);
         sr.color *= new Color(0.25f, 0.25f, 0.25f, 0.5f);
         sr.sortingOrder = 1000;
       }
