@@ -39,7 +39,7 @@ public class DistrictController : Singleton<DistrictController> {
     
     //Load Buildings
     for (int i = 0; i < district.buildings.Count; i ++) {
-      Vector3 pos = new Vector3(i * buildingWidth,0.75f,0);
+      Vector3 pos = new Vector3(i * buildingWidth,3f,0);
       DrawBuilding(district.buildings[i], pos, district.index);
       
       foreach(Person villager in district.buildings[i].residents){
